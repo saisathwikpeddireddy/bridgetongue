@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import DecodeProof from "@/components/DecodeProof";
 import { EN_ES_ESTIMATED_UNLOCK } from "@/lib/transfer/rules";
 import { formatCoverage, tokenCoverage } from "@/lib/transfer/coverage";
@@ -23,6 +25,23 @@ export default function Home() {
       </header>
 
       <DecodeProof />
+
+      <section className="mt-24 border-t border-[var(--color-line)] pt-12">
+        <h2 className="text-xs uppercase tracking-[0.2em] text-[var(--color-muted)]">
+          Now build one yourself
+        </h2>
+        <p className="mt-5 max-w-xl text-lg leading-relaxed text-[var(--color-muted)]">
+          Reading is the easy half. The rest of the method is producing
+          sentences you have never seen, before anyone shows you the answer.
+          No word banks, no multiple choice.
+        </p>
+        <Link
+          href="/learn"
+          className="mt-7 inline-block rounded-full border border-[var(--color-accent)] px-7 py-3 text-sm text-[var(--color-accent)] transition hover:bg-[var(--color-accent)] hover:text-[var(--color-ink)]"
+        >
+          Start building
+        </Link>
+      </section>
 
       <section className="mt-24 border-t border-[var(--color-line)] pt-12">
         <h2 className="text-xs uppercase tracking-[0.2em] text-[var(--color-muted)]">
