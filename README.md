@@ -35,10 +35,14 @@ Pre-alpha. What exists today:
 - the transfer engine (`src/lib/transfer/`), with a tested English to Spanish
   rule set and a derivation pass for words it has never seen
 - the coverage model, which is the progress metric that replaces streaks
-- the landing page, which is the thirty-second proof of the thesis
+- the landing page (`/`), which is the thirty-second proof of the thesis
+- the construction loop (`/learn`): a seven-pattern mini-course, deterministic
+  grading with error classification, and latency measured from the first
+  keystroke
 - the database schema for the learner loop (`src/lib/db/schema.ts`), not yet wired
 
-What does not exist yet: the construction loop, accounts, scheduling, audio.
+What does not exist yet: accounts, spaced scheduling, audio, and the corpus
+pipeline that replaces the hand-seeded rule data.
 
 **The numbers rendered in the UI are modelled estimates, not measurements.**
 They are placeholders so the interface has something honest-shaped to show, and
@@ -94,11 +98,25 @@ work before the database exists.
 ```
 src/
   app/                  routes; api/health is the deploy smoke test
-  components/           React; DecodeProof is the landing-page proof
+    learn/              the construction loop
+  components/           React; DecodeProof is the proof, ConstructionLoop the drill
   lib/
     transfer/           the engine: types, rules, apply, coverage
+    curriculum/         patterns: the structures the course teaches
+    exercise/           generate prompts, grade answers deterministically
     db/                 Drizzle schema and lazy client
 docs/
   ARCHITECTURE.md       how the transfer graph gets computed
   PRODUCT.md            the thesis, the wedge, what we are not building
 ```
+
+## Two invariants
+
+Worth knowing before changing anything:
+
+1. **Grading never calls a model.** `src/lib/exercise/grade.ts` compares against
+   an enumerable answer set. Being told you are wrong when you are right is the
+   fastest way to lose a learner, so the model explains verdicts, it does not
+   reach them.
+2. **The learner produces before seeing.** No word banks, no multiple choice.
+   Recognition is not recall, and the generation effect is why this works.
